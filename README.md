@@ -1,7 +1,7 @@
 # Claude for Education
 
 <p align="center">
-  <img src="claude-for-education.png" alt="Claude for Education" width="600">
+  <img src="docs/images/claude-for-education.png" alt="Claude for Education" width="600">
 </p>
 
 **Personalized adaptive learning system powered by Claude Code agents — tailored to each student's pace, learning style, and goals.**

@@ -21,68 +21,8 @@ Claude for Education is an intelligent tutoring system that brings the philosoph
 The system orchestrates 7 specialized Claude Code agents through an **8-step education loop** with democratic planning and crash recovery.
 
 <p align="center">
-  <img src="docs/images/education_flow.png" alt="Education Loop Flow" width="500">
+  <img src="docs/images/education_flow.png" alt="Education Loop Flow" width="360">
 </p>
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                   EDUCATION LOOP (Iteration N)                  │
-└─────────────────────────────────────────────────────────────────┘
-
-   PLANNING PHASE (Autonomous Material Prep)
-   ───────────────────────────────────────
-   Step 1: Plan (3 proposals in parallel)
-   ├─ Planner A: Conservative/proven approach
-   ├─ Planner B: Creative/experimental approach
-   └─ Planner C: Weakness-focused approach
-           ↓
-   Step 2: Critic Selection (democratic review)
-   ├─ Scores all 3 proposals
-   └─ Selects best based on student fit
-           ↓
-   Step 3: Architect Expansion (detail & veto)
-   ├─ Expands winning plan into detailed spec
-   └─ Can veto back to Step 1 if structural issues found
-           ↓
-   Step 4: Create Materials (polished HTML)
-   ├─ Generates interactive lesson + quiz
-   └─ Age-appropriate design (playful/modern/refined)
-
-   TEACHING PHASE (Live Student Session)
-   ──────────────────────────────────
-   Step 5: Teach (long-lived agent teammate)
-   ├─ Launches local Express server
-   ├─ Student interacts: reads lesson, answers quiz, chats
-   ├─ Teacher responds to student questions in real-time
-   └─ Waits for student completion signal OR timeout
-
-   EVALUATION & PLANNING PHASE (Feedback Loop)
-   ───────────────────────────────────────────
-   Step 6: Evaluate (performance analysis)
-   ├─ Analyzes quiz scores, chat engagement, confidence
-   ├─ Updates student profile with mastery levels
-   └─ Recommends next chapter + adjustments
-           ↓
-   Step 7: Re-Plan (curriculum adaptation)
-   ├─ Advances to next chapter OR
-   ├─ Inserts remedial/practice chapter based on gaps
-   └─ Updates course plan with adaptation log
-           ↓
-   Step 8: Record & Prepare Next Session
-   ├─ Logs session history
-   └─ Pre-generates Steps 1-4 for next session autonomously
-           ↓
-         WAIT for student to return
-           ↓
-   [Loop continues until stop condition met]
-
-   STOP CONDITIONS
-   ───────────────
-   • Student quit
-   • All milestones mastered (mastery >= 0.9)
-   • Max chapters reached
-   • Planner determines complete
-```
 
 ### Agent Registry
 

@@ -1,0 +1,292 @@
+/* buddy.css — Buddy companion styles */
+
+/* ── Panel ── */
+
+.buddy-panel {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 280px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.25s ease;
+  animation: buddySlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes buddySlideIn {
+  from {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.buddy-panel.buddy-hidden {
+  display: none !important;
+}
+
+.buddy-panel.buddy-collapsed .buddy-body {
+  display: none;
+}
+
+.buddy-panel.buddy-collapsed {
+  border-radius: 16px;
+}
+
+/* ── Header / Toggle ── */
+
+.buddy-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  cursor: pointer;
+  user-select: none;
+}
+
+.buddy-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.buddy-header-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.buddy-header-level {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 1px 7px;
+  border-radius: 99px;
+}
+
+.buddy-toggle-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.buddy-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Body ── */
+
+.buddy-body {
+  padding: 16px 14px;
+}
+
+/* ── Character ── */
+
+.buddy-character {
+  text-align: center;
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 8px;
+  display: block;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.buddy-character.bounce {
+  animation: buddyBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.buddy-character.celebration {
+  animation: buddyCelebrate 0.8s ease;
+}
+
+.buddy-character.nod {
+  animation: buddyNod 0.4s ease;
+}
+
+.buddy-character.pat {
+  animation: buddyPat 0.6s ease;
+}
+
+@keyframes buddyBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25) rotate(-5deg); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes buddyCelebrate {
+  0%   { transform: scale(1) rotate(0deg); }
+  20%  { transform: scale(1.3) rotate(-10deg); }
+  40%  { transform: scale(1.3) rotate(10deg); }
+  60%  { transform: scale(1.15) rotate(-5deg); }
+  80%  { transform: scale(1.15) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes buddyNod {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-6px); }
+  70%  { transform: translateY(3px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes buddyPat {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-8deg); }
+  75%  { transform: rotate(8deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Character variants */
+[data-character="fox"] .buddy-character::after   { content: "🦊"; }
+[data-character="robot"] .buddy-character::after { content: "🤖"; }
+[data-character="fairy"] .buddy-character::after { content: "🧚"; }
+
+/* ── Name ── */
+
+.buddy-name {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+}
+
+/* ── Message (speech bubble) ── */
+
+.buddy-message {
+  position: relative;
+  background: #f3f4f6;
+  border-radius: 12px;
+  border-bottom-left-radius: 4px;
+  padding: 10px 13px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #374151;
+  min-height: 44px;
+  margin-bottom: 12px;
+  transition: opacity 0.2s ease;
+}
+
+.buddy-message::before {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 14px;
+  border: 8px solid transparent;
+  border-top-color: #f3f4f6;
+  border-bottom: none;
+}
+
+.buddy-message.fade-in {
+  animation: buddyMsgFadeIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes buddyMsgFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.buddy-message-text {
+  display: block;
+}
+
+/* ── XP Bar ── */
+
+.buddy-xp-section {
+  margin-top: 14px;
+}
+
+.buddy-xp-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: #6b7280;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.buddy-xp-bar {
+  background: #e5e7eb;
+  border-radius: 99px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.buddy-xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-width: 0%;
+  max-width: 100%;
+}
+
+.buddy-xp-values {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  text-align: right;
+  margin-top: 3px;
+}
+
+/* ── XP gain flash ── */
+
+.buddy-xp-gain {
+  position: absolute;
+  top: -4px;
+  right: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #2563eb;
+  animation: xpGainFloat 1.2s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes xpGainFloat {
+  0%   { opacity: 1; transform: translateY(0); }
+  70%  { opacity: 1; transform: translateY(-18px); }
+  100% { opacity: 0; transform: translateY(-24px); }
+}
+
+/* ── Responsive / mobile ── */
+
+@media (max-width: 480px) {
+  .buddy-panel {
+    width: 240px;
+    bottom: 16px;
+    left: 12px;
+  }
+
+  .buddy-character {
+    font-size: 2.8rem;
+  }
+}

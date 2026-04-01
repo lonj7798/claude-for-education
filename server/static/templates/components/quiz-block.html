@@ -1,0 +1,29 @@
+<!--
+  quiz-block.html — Embeddable quiz component snippet
+
+  Usage: drop this into any lesson section to embed a quiz.
+  The quiz data is loaded from window.__QUIZ_DATA__ by quiz-engine.js,
+  or provide a data-quiz-id attribute to load a specific quiz via the API.
+
+  Example:
+    <div class="quiz-block" data-quiz-id="ch1-quiz-1"></div>
+    <script>
+      const qb = new QuizEngine(window.__QUIZ_DATA__);
+      qb.render('quiz-block-ch1-quiz-1');
+    </script>
+-->
+
+<!-- Inline quiz block — place inside a lesson section or standalone -->
+<div
+  class="quiz-block"
+  id="quiz-block-{{QUIZ_ID}}"
+  data-quiz-id="{{QUIZ_ID}}"
+  aria-label="Quiz: {{QUIZ_TITLE}}"
+>
+  <!-- QuizEngine renders into this container -->
+  <noscript>
+    <p style="color:#dc2626;font-weight:500;">
+      JavaScript is required to display this quiz.
+    </p>
+  </noscript>
+</div>

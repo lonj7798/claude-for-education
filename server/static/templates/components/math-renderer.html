@@ -1,0 +1,110 @@
+<!--
+  math-renderer.html — KaTeX math display component
+
+  Provides KaTeX CDN integration with auto-render for:
+    - Inline math:  $...$  or  \(...\)
+    - Display math: $$...$$ or  \[...\]
+
+  Usage:
+    1. Paste the <link> and <script> tags into your lesson <head>.
+    2. Call renderMathInElement() after page load (shown below).
+    3. Write math inline in your HTML using $...$ or $$...$$.
+
+  Example math in lesson HTML:
+    <p>The quadratic formula is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$</p>
+    <p>Euler's identity: $$e^{i\pi} + 1 = 0$$</p>
+-->
+
+<!-- ══════════════════════════════════════════
+     HEAD SNIPPET — add to <head> of lesson page
+     ══════════════════════════════════════════ -->
+
+<!-- KaTeX CSS -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+  crossorigin="anonymous"
+>
+
+<!-- KaTeX core JS -->
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+  crossorigin="anonymous"
+></script>
+
+<!-- KaTeX auto-render extension -->
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  crossorigin="anonymous"
+  onload="initKaTeX()"
+></script>
+
+<!-- ══════════════════════════════════════════
+     INIT SCRIPT — add before </body>
+     ══════════════════════════════════════════ -->
+<script>
+function initKaTeX() {
+  renderMathInElement(document.body, {
+    // Delimiters for different math modes
+    delimiters: [
+      { left: '$$',  right: '$$',  display: true  },   // display block
+      { left: '\\[', right: '\\]', display: true  },   // display block (alt)
+      { left: '$',   right: '$',   display: false },   // inline
+      { left: '\\(', right: '\\)', display: false }    // inline (alt)
+    ],
+    // Throw on parse error or silently ignore
+    throwOnError: false,
+    errorColor: '#dc2626',
+    // Only render math inside lesson content (skip code blocks)
+    ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoredClasses: ['sandbox-editor', 'quiz-code-input', 'no-math'],
+    // Trust all macros (set false in production if user content)
+    trust: false,
+    // Common macros for teaching convenience
+    macros: {
+      '\\RR': '\\mathbb{R}',
+      '\\NN': '\\mathbb{N}',
+      '\\ZZ': '\\mathbb{Z}',
+      '\\QQ': '\\mathbb{Q}',
+      '\\CC': '\\mathbb{C}',
+      '\\vec': '\\mathbf{#1}',
+      '\\abs': '\\left|#1\\right|',
+      '\\norm': '\\left\\|#1\\right\\|',
+      '\\diff': '\\frac{d#1}{d#2}',
+      '\\pdiff': '\\frac{\\partial #1}{\\partial #2}'
+    }
+  });
+}
+</script>
+
+<!-- ══════════════════════════════════════════
+     DEMO — inline math display examples
+     (remove in production, for reference only)
+     ══════════════════════════════════════════ -->
+<!--
+<section class="lesson-section" data-section="math-examples">
+  <h2>Math Examples</h2>
+
+  <h3>Inline math</h3>
+  <p>The Pythagorean theorem states that $a^2 + b^2 = c^2$ for a right triangle.</p>
+  <p>Euler's number $e \approx 2.71828$ is the base of the natural logarithm.</p>
+
+  <h3>Display math</h3>
+  <p>The quadratic formula:</p>
+  $$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+
+  <p>The integral of a Gaussian:</p>
+  $$\int_{-\infty}^{\infty} e^{-x^2}\, dx = \sqrt{\pi}$$
+
+  <p>Matrix multiplication:</p>
+  $$\begin{pmatrix} a & b \\ c & d \end{pmatrix}
+    \begin{pmatrix} x \\ y \end{pmatrix} =
+    \begin{pmatrix} ax + by \\ cx + dy \end{pmatrix}$$
+
+  <h3>Using custom macros</h3>
+  <p>The set of real numbers $\RR$ and natural numbers $\NN$.</p>
+  <p>The norm of a vector: $\norm{\vec{v}} = \sqrt{v_1^2 + v_2^2 + v_3^2}$</p>
+</section>
+-->

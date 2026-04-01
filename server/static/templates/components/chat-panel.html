@@ -1,0 +1,54 @@
+<!--
+  chat-panel.html — Chat widget HTML structure
+
+  This is the internal HTML structure used by ChatWidget (chat-widget.js).
+  It is injected into #chat-widget on the page automatically by the class.
+  Include it here as reference / for server-side rendering fallback.
+
+  The ChatWidget class builds this structure dynamically, so you do NOT need
+  to paste this into lesson pages — just include chat-widget.js and add
+  <div id="chat-widget"></div>.
+-->
+
+<!-- Chat widget root (injected by chat-widget.js into #chat-widget) -->
+<div class="chat-widget">
+
+  <!-- Floating toggle button -->
+  <div class="chat-toggle-btn" role="button" tabindex="0" aria-label="Open chat with teacher">
+    <span class="chat-icon" aria-hidden="true">💬</span>
+    <span class="chat-unread" aria-live="polite" style="display:none">0</span>
+  </div>
+
+  <!-- Expandable chat panel -->
+  <div class="chat-panel" role="dialog" aria-label="Chat with your teacher" style="display:none">
+
+    <!-- Header -->
+    <div class="chat-header">
+      <span class="chat-header-title">Ask your teacher</span>
+      <button class="chat-close-btn" aria-label="Close chat">✕</button>
+    </div>
+
+    <!-- Message list -->
+    <div class="chat-messages" role="log" aria-live="polite" aria-label="Chat messages">
+      <!-- Messages are appended here by ChatWidget -->
+      <!-- Example structure:
+        <div class="chat-msg user">Your message text</div>
+        <div class="chat-msg teacher">Teacher response text</div>
+        <div class="chat-msg thinking">Teacher is thinking...</div>
+      -->
+    </div>
+
+    <!-- Input footer -->
+    <div class="chat-footer">
+      <textarea
+        class="chat-input"
+        placeholder="Ask a question..."
+        rows="2"
+        aria-label="Type your message"
+        maxlength="2000"
+      ></textarea>
+      <button class="chat-send-btn" aria-label="Send message">Send</button>
+    </div>
+
+  </div>
+</div>

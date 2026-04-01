@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{LESSON_TITLE}}</title>
+  <link rel="stylesheet" href="/css/education.css">
+  <link rel="stylesheet" href="/css/buddy.css">
+  <!-- TEACHER: Add KaTeX CSS here if math topic -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"> -->
+</head>
+<body>
+  <header class="lesson-header">
+    <div class="progress-bar-container" id="progress-bar"></div>
+    <h1>{{LESSON_TITLE}}</h1>
+    <p class="lesson-meta">Chapter {{CHAPTER_NUMBER}} | Difficulty: {{DIFFICULTY}} | {{ESTIMATED_DURATION}} min</p>
+  </header>
+
+  <main class="lesson-content" id="lesson-content">
+    <!-- TEACHER: Fill content sections here. Each section uses the pattern below. -->
+    <!--
+    <section class="lesson-section" data-section="introduction">
+      <h2>Introduction</h2>
+      <p>Your content here...</p>
+    </section>
+
+    <section class="lesson-section" data-section="core-concept">
+      <h2>Core Concept</h2>
+      <p>Explanation...</p>
+      <pre><code>// Example code
+function example() {
+  return 42;
+}</code></pre>
+    </section>
+
+    <section class="lesson-section" data-section="practice">
+      <h2>Practice</h2>
+      <p>Try it yourself...</p>
+    </section>
+    -->
+  </main>
+
+  <div id="quiz-container">
+    <!-- TEACHER: Quiz is initialized below via window.__QUIZ_DATA__ -->
+  </div>
+
+  <div id="completion-container"></div>
+
+  <!-- Buddy Panel (hidden until buddy-engine.js enables it) -->
+  <div id="buddy-panel" class="buddy-panel buddy-hidden"></div>
+
+  <!-- Chat Widget anchor -->
+  <div id="chat-widget"></div>
+
+  <script>
+    // Session config — set by teacher agent when generating this page
+    window.__SESSION_ID__      = '{{SESSION_ID}}';
+    window.__CHAPTER_ID__      = '{{CHAPTER_ID}}';
+    window.__QUIZ_DATA__       = {{QUIZ_DATA_JSON}};
+    window.__BUDDY_MESSAGES__  = {{BUDDY_MESSAGES_JSON}};
+    window.__POLL_INTERVAL__   = {{POLL_INTERVAL}};
+  </script>
+
+  <script src="/js/progress-tracker.js"></script>
+  <script src="/js/quiz-engine.js"></script>
+  <script src="/js/chat-widget.js"></script>
+  <script src="/js/completion.js"></script>
+  <script src="/js/buddy-engine.js"></script>
+
+  <!-- TEACHER: Add KaTeX auto-render here if math topic -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body)"></script> -->
+
+  <script>
+    // Initialize all components
+    const tracker    = new ProgressTracker('lesson-content', 'progress-bar');
+    const quiz       = new QuizEngine(window.__QUIZ_DATA__);
+    quiz.render('quiz-container');
+    const chat       = new ChatWidget(window.__SESSION_ID__, { pollInterval: window.__POLL_INTERVAL__ || 2000 });
+    chat.startPolling();
+    const completion = new CompletionHandler(window.__SESSION_ID__, window.__CHAPTER_ID__);
+    completion.render('completion-container');
+    const buddy      = new BuddyEngine(window.__BUDDY_MESSAGES__);
+  </script>
+</body>
+</html>

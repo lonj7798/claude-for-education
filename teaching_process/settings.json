@@ -1,0 +1,21 @@
+{
+  "status": "idle",
+  "current_phase": null,
+  "current_chapter_id": null,
+  "current_session_id": null,
+  "completed_chapters": 0,
+  "total_sessions": 0,
+  "server_port": 3456,
+  "server_running": false,
+  "setup_complete": false,
+  "last_evaluation_id": null,
+  "loop_iteration": 0,
+  "session_timeout_minutes": 120,
+  "buddy_mode": false,
+  "max_chapters": 50,
+  "auto_advance": false,
+  "auto_open_browser": true,
+  "chat_poll_interval_ms": 2000,
+  "created_at": null,
+  "updated_at": null
+}

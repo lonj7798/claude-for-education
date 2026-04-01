@@ -1,0 +1,15 @@
+node_modules/
+.DS_Store
+.omc/
+
+# Teaching process runtime data (generated per-student, not tracked in git)
+teaching_process/materials/
+teaching_process/materials_markdown/
+teaching_process/materials_organized/
+teaching_process/html_materials/
+teaching_process/sessions/
+teaching_process/evaluations/
+teaching_process/research_briefs/
+teaching_process/plans/
+teaching_process/history/raw_data.json
+teaching_process/history/progress_summary.json

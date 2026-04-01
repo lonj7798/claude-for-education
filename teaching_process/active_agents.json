@@ -1,0 +1,4 @@
+{
+  "description": "Registry of active agent/teammate sessions. Orchestrator reads this on startup to recover lost state. Updated at the START and END of every agent invocation.",
+  "agents": []
+}

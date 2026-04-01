@@ -1,0 +1,16 @@
+{
+  "course_id": null,
+  "topic": null,
+  "sub_topic": null,
+  "student_id": null,
+  "status": "not_started",
+  "completion_reason": null,
+  "chapters": [],
+  "max_chapters": 50,
+  "total_chapters_planned": 0,
+  "chapters_completed": 0,
+  "current_chapter_id": null,
+  "adaptation_log": [],
+  "created_at": null,
+  "updated_at": null
+}

@@ -1,0 +1,232 @@
+<!--
+  code-sandbox.html — Simple textarea-based code editor component
+
+  Features:
+  - Monospace font with line-number gutter (CSS only)
+  - Tab key handling (inserts 2 spaces)
+  - "Run" button (display only in v1 — wire to backend for execution)
+  - Output area for results
+  - Optional Prism.js syntax highlighting overlay (CDN)
+
+  Usage: copy this snippet into a lesson-section, adjust the language and
+  placeholder code, then include the <style> and <script> blocks once per page.
+-->
+
+<!-- Prism.js CDN for syntax highlighting (add once per page in <head>) -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script> -->
+
+<div class="code-sandbox" data-language="javascript" id="sandbox-{{SANDBOX_ID}}">
+
+  <div class="sandbox-toolbar">
+    <span class="sandbox-lang-badge">JavaScript</span>
+    <div class="sandbox-toolbar-actions">
+      <button class="sandbox-reset-btn" type="button" aria-label="Reset code">Reset</button>
+      <button class="sandbox-run-btn" type="button" aria-label="Run code">&#9654; Run</button>
+    </div>
+  </div>
+
+  <div class="sandbox-editor-wrap">
+    <!-- Line numbers are rendered via CSS counter on each line break -->
+    <textarea
+      class="sandbox-editor"
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      aria-label="Code editor"
+      rows="12"
+    >// Write your code here
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet('World'));
+</textarea>
+  </div>
+
+  <div class="sandbox-output-wrap">
+    <div class="sandbox-output-label">Output</div>
+    <div class="sandbox-output" role="log" aria-live="polite" aria-label="Code output">
+      <span class="sandbox-output-placeholder">Press Run to see output...</span>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .code-sandbox {
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px 0;
+    background: #1e293b;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+
+  .sandbox-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    background: #0f172a;
+    border-bottom: 1px solid #334155;
+  }
+
+  .sandbox-lang-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #94a3b8;
+  }
+
+  .sandbox-toolbar-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .sandbox-reset-btn,
+  .sandbox-run-btn {
+    border: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .sandbox-reset-btn {
+    background: #334155;
+    color: #94a3b8;
+  }
+
+  .sandbox-reset-btn:hover { background: #475569; }
+
+  .sandbox-run-btn {
+    background: #16a34a;
+    color: #fff;
+  }
+
+  .sandbox-run-btn:hover { background: #15803d; }
+  .sandbox-run-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .sandbox-editor-wrap {
+    position: relative;
+  }
+
+  .sandbox-editor {
+    display: block;
+    width: 100%;
+    padding: 16px 18px;
+    background: #1e293b;
+    color: #e2e8f0;
+    border: none;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    tab-size: 2;
+    min-height: 180px;
+    box-sizing: border-box;
+    caret-color: #60a5fa;
+  }
+
+  .sandbox-editor::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+
+  .sandbox-output-wrap {
+    border-top: 1px solid #334155;
+  }
+
+  .sandbox-output-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
+    padding: 6px 18px 2px;
+  }
+
+  .sandbox-output {
+    padding: 10px 18px 14px;
+    min-height: 48px;
+    color: #a3e635;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .sandbox-output-placeholder {
+    color: #475569;
+    font-style: italic;
+  }
+
+  .sandbox-output.has-error {
+    color: #f87171;
+  }
+</style>
+
+<script>
+(function() {
+  const sandbox = document.getElementById('sandbox-{{SANDBOX_ID}}');
+  if (!sandbox) return;
+
+  const editor   = sandbox.querySelector('.sandbox-editor');
+  const runBtn   = sandbox.querySelector('.sandbox-run-btn');
+  const resetBtn = sandbox.querySelector('.sandbox-reset-btn');
+  const output   = sandbox.querySelector('.sandbox-output');
+  const initialCode = editor.value;
+
+  // Tab key inserts 2 spaces
+  editor.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = this.selectionStart;
+      const end   = this.selectionEnd;
+      this.value  = this.value.slice(0, start) + '  ' + this.value.slice(end);
+      this.selectionStart = this.selectionEnd = start + 2;
+    }
+  });
+
+  // Reset to initial code
+  resetBtn.addEventListener('click', function() {
+    editor.value = initialCode;
+    output.className = 'sandbox-output';
+    output.innerHTML = '<span class="sandbox-output-placeholder">Press Run to see output...</span>';
+  });
+
+  // Run button — v1: evaluate JS in sandbox; wire to backend for other languages
+  runBtn.addEventListener('click', function() {
+    const lang = sandbox.dataset.language || 'javascript';
+    const code = editor.value;
+    output.className = 'sandbox-output';
+    output.textContent = '';
+
+    if (lang === 'javascript') {
+      // Capture console.log output
+      const logs = [];
+      const origLog = console.log;
+      console.log = (...args) => logs.push(args.map(String).join(' '));
+      try {
+        // eslint-disable-next-line no-new-func
+        new Function(code)();
+        console.log = origLog;
+        output.textContent = logs.length > 0 ? logs.join('\n') : '(no output)';
+      } catch (err) {
+        console.log = origLog;
+        output.className = 'sandbox-output has-error';
+        output.textContent = `Error: ${err.message}`;
+      }
+    } else {
+      // Non-JS: would POST to backend
+      output.textContent = '[Execution for this language requires server support]';
+    }
+  });
+})();
+</script>

@@ -1,0 +1,62 @@
+<!--
+  buddy-panel.html — Buddy companion HTML structure
+
+  This is the structure that BuddyEngine (buddy-engine.js) builds dynamically
+  and injects into #buddy-panel. Include this as reference / for SSR fallback.
+
+  The panel is hidden by default (class="buddy-panel buddy-hidden").
+  BuddyEngine removes buddy-hidden after confirming buddy_enabled from the
+  student profile API.
+
+  Character variants set via data-character attribute on #buddy-panel:
+    data-character="fox"   → 🦊
+    data-character="robot" → 🤖
+    data-character="fairy" → 🧚
+-->
+
+<!-- Buddy panel root — placed fixed bottom-left by buddy.css -->
+<div
+  id="buddy-panel"
+  class="buddy-panel buddy-hidden"
+  data-character="fox"
+  aria-label="Learning companion"
+  role="complementary"
+>
+
+  <!-- Clickable header — collapses/expands the body -->
+  <div class="buddy-header" role="button" tabindex="0" aria-expanded="true" aria-controls="buddy-body">
+    <div class="buddy-header-left">
+      <span class="buddy-header-name">Buddy</span>
+      <span class="buddy-header-level">L1</span>
+    </div>
+    <button class="buddy-toggle-btn" aria-label="Collapse buddy panel">▾</button>
+  </div>
+
+  <!-- Collapsible body -->
+  <div class="buddy-body" id="buddy-body">
+
+    <!-- Character emoji display -->
+    <span class="buddy-character" aria-hidden="true">🦊</span>
+
+    <!-- Buddy name label -->
+    <div class="buddy-name">Buddy</div>
+
+    <!-- Speech bubble message area -->
+    <div class="buddy-message" role="status" aria-live="polite">
+      <span class="buddy-message-text">Hi! Let's learn together!</span>
+    </div>
+
+    <!-- XP progress section -->
+    <div class="buddy-xp-section">
+      <div class="buddy-xp-label">
+        <span>XP</span>
+        <span>Level 1</span>
+      </div>
+      <div class="buddy-xp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="XP progress">
+        <div class="buddy-xp-fill" style="width: 0%"></div>
+      </div>
+      <div class="buddy-xp-values">0 / 100 XP</div>
+    </div>
+
+  </div>
+</div>

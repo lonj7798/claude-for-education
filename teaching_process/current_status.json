@@ -1,0 +1,47 @@
+{
+  "description": "Human-readable current status. Updated by orchestrator after every step. Read by dashboard, agents, and users.",
+  "loop_iteration": 0,
+  "current_step": null,
+  "current_step_number": null,
+  "total_steps": 8,
+  "current_chapter": {
+    "chapter_id": null,
+    "title": null,
+    "difficulty": null,
+    "order": null,
+    "status": null
+  },
+  "current_session": {
+    "session_id": null,
+    "started_at": null,
+    "server_port": null,
+    "server_url": null
+  },
+  "course_progress": {
+    "topic": null,
+    "chapters_completed": 0,
+    "chapters_planned": 0,
+    "completion_percentage": 0,
+    "course_status": "not_started"
+  },
+  "student_summary": {
+    "name": null,
+    "level": null,
+    "overall_understanding": null,
+    "latest_quiz_score": null,
+    "buddy_name": null,
+    "buddy_level": null
+  },
+  "last_action": {
+    "step": null,
+    "description": null,
+    "timestamp": null,
+    "result": null
+  },
+  "next_action": {
+    "step": null,
+    "description": null,
+    "waiting_for": null
+  },
+  "updated_at": null
+}

@@ -1,0 +1,38 @@
+{
+  "student_id": null,
+  "name": null,
+  "education_level": null,
+  "custom_level_description": null,
+  "age_group": null,
+  "topic": null,
+  "sub_topic": null,
+  "goals": [],
+  "milestones": [],
+  "learning_mode": null,
+  "preferences": {
+    "language": "en",
+    "difficulty_preference": "balanced",
+    "session_duration_minutes": 30,
+    "visual_learner": true,
+    "prefers_examples": true
+  },
+  "buddy_config": {
+    "buddy_enabled": false,
+    "buddy_character": null,
+    "buddy_name": null,
+    "buddy_personality": "cheerful"
+  },
+  "buddy_state": {
+    "buddy_level": 1,
+    "buddy_xp": 0
+  },
+  "history_summary": {
+    "total_sessions": 0,
+    "average_quiz_score": null,
+    "strongest_areas": [],
+    "weakest_areas": [],
+    "overall_understanding_level": null
+  },
+  "created_at": null,
+  "updated_at": null
+}

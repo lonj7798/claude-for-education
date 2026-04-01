@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Dashboard</title>
+  <link rel="stylesheet" href="/css/education.css">
+  <link rel="stylesheet" href="/dashboard/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+  <header class="dashboard-header">
+    <div class="dashboard-header-inner">
+      <div class="dashboard-header-text">
+        <h1>Learning Dashboard</h1>
+        <p class="dashboard-subtitle" id="student-info">Loading student information...</p>
+      </div>
+      <a href="/" class="back-link">Back to course</a>
+    </div>
+  </header>
+
+  <main class="dashboard-content">
+
+    <!-- Section 1: Course Overview -->
+    <section class="dashboard-card" id="course-overview">
+      <h2>Course Overview</h2>
+      <div class="overview-grid">
+        <div class="stat-box" id="topic-display">
+          <span class="stat-value" id="stat-topic">—</span>
+          <span class="stat-label">Topic</span>
+        </div>
+        <div class="stat-box" id="chapters-progress">
+          <span class="stat-value" id="stat-chapters">0 / 0</span>
+          <span class="stat-label">Chapters Complete</span>
+        </div>
+        <div class="stat-box" id="sessions-count">
+          <span class="stat-value" id="stat-sessions">0</span>
+          <span class="stat-label">Total Sessions</span>
+        </div>
+        <div class="stat-box" id="total-time">
+          <span class="stat-value" id="stat-time">0 min</span>
+          <span class="stat-label">Time Learned</span>
+        </div>
+      </div>
+      <div class="progress-bar-large" id="course-progress-bar">
+        <div class="progress-bar-large-track">
+          <div class="progress-bar-large-fill" id="course-progress-fill" style="width: 0%"></div>
+        </div>
+        <span class="progress-bar-large-label" id="course-progress-label">0% complete</span>
+      </div>
+    </section>
+
+    <!-- Section 2: Learning Progression -->
+    <section class="dashboard-card" id="learning-progression">
+      <h2>Learning Progression</h2>
+      <div id="progression-chart-container" class="chart-container">
+        <canvas id="progression-chart"></canvas>
+        <p class="min-data-message" id="progression-min-data" style="display:none">
+          Keep going! Your progress chart will appear after a few more sessions.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 3: Performance Trends -->
+    <section class="dashboard-card" id="performance-trends">
+      <h2>Performance Trends</h2>
+      <div class="charts-row">
+        <div class="chart-half">
+          <h3 class="chart-label">Quiz Scores</h3>
+          <div class="chart-container">
+            <canvas id="quiz-scores-chart"></canvas>
+            <p class="min-data-message" id="quiz-min-data" style="display:none">
+              Complete a few quizzes to see your score trends!
+            </p>
+          </div>
+        </div>
+        <div class="chart-half">
+          <h3 class="chart-label">Skill Profile</h3>
+          <div class="chart-container">
+            <canvas id="skills-radar-chart"></canvas>
+            <p class="min-data-message" id="radar-min-data" style="display:none">
+              Your skill profile will develop as you learn more.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Session History -->
+    <section class="dashboard-card" id="session-history">
+      <h2>Session History</h2>
+      <div class="table-wrapper">
+        <table class="history-table" id="history-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Chapter</th>
+              <th>Duration</th>
+              <th>Quiz Score</th>
+              <th>Overall</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="history-body"></tbody>
+        </table>
+      </div>
+      <p class="empty-state" id="no-sessions" style="display:none">
+        No sessions yet. Start learning to see your history!
+      </p>
+    </section>
+
+    <!-- Section 5: Current Status -->
+    <section class="dashboard-card" id="current-status">
+      <h2>Current Status</h2>
+      <div id="status-content" class="status-grid"></div>
+    </section>
+
+    <!-- Section 6: Buddy Status (shown only if buddy enabled) -->
+    <section class="dashboard-card" id="buddy-status" style="display:none">
+      <h2>Buddy Status</h2>
+      <div class="buddy-dashboard">
+        <div class="buddy-character-large" id="buddy-char"></div>
+        <div class="buddy-info">
+          <p class="buddy-info-name" id="buddy-name-display"></p>
+          <p class="buddy-info-level" id="buddy-level-display"></p>
+          <div class="xp-bar-large" id="buddy-xp-bar-dashboard">
+            <div class="xp-bar-large-track">
+              <div class="xp-bar-large-fill" id="buddy-xp-fill" style="width: 0%"></div>
+            </div>
+            <div class="xp-bar-large-labels">
+              <span id="buddy-xp-current">0 XP</span>
+              <span id="buddy-xp-next">Next level</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/dashboard/dashboard.js"></script>
+</body>
+</html>

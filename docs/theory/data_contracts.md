@@ -232,7 +232,16 @@ When session completes, server writes: `teaching_process/sessions/{session_id}.c
 **Writers:** Orchestrator, edu-setup
 **Readers:** All agents
 
-Runtime state tracking. See initial template for all fields.
+Runtime state tracking. Key fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| status | enum | idle\|setup\|planning\|creating\|teaching\|evaluating\|preparing\|waiting\|course_complete |
+| language | string | ISO 639-1 language code (e.g., `en`, `ko`, `es`, `ja`). All agents use this to deliver content in the student's preferred language. |
+| buddy_mode | boolean | Whether buddy companion is enabled |
+| server_port | int | Express server port (default 3456) |
+| session_timeout_minutes | int | Max session duration before auto-timeout |
+| setup_complete | boolean | Whether initial setup wizard has completed |
 
 ---
 

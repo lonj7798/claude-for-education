@@ -36,12 +36,27 @@ Ask: "What is your current education level?"
 Accept one of: `elementary`, `middle`, `high`, `undergraduate`, `graduate`, `professional`, or `custom`.
 If `custom`: ask them to describe it in one sentence and store the raw string.
 
-### Step 4 — Age Group
+### Step 4 — Language
+Ask: "What language would you like to learn in?"
+Present common options with examples:
+- `en` — English
+- `ko` — Korean (한국어)
+- `es` — Spanish (Español)
+- `ja` — Japanese (日本語)
+- `zh` — Chinese (中文)
+- `fr` — French (Français)
+- `de` — German (Deutsch)
+- Or type any language name / ISO 639-1 code
+
+Store as `preferences.language` in the profile and `language` in `settings.json`.
+All teaching materials, quizzes, chat responses, and buddy messages will be delivered in this language.
+
+### Step 5 — Age Group
 Ask: "How would you describe your age group?"
 Accept: `child` (under 12), `teen` (12–17), `adult` (18+).
 Store as `age_group` in the profile.
 
-### Step 5 — Learning Mode
+### Step 6 — Learning Mode
 Ask: "How would you prefer to learn?"
 Present options:
 - `chat only` — conversational lessons, no formal tests
@@ -50,12 +65,12 @@ Present options:
 - `mixed` — a combination of all modes (recommended)
 Store as `learning_mode`.
 
-### Step 6 — Difficulty Preference
+### Step 7 — Difficulty Preference
 Ask: "How challenging would you like the material to be?"
 Options: `challenging`, `balanced`, `gentle`.
 Store as `difficulty`.
 
-### Step 7 — Study Buddy
+### Step 8 — Study Buddy
 Ask: "Would you like a study buddy companion? This is a friendly character who encourages you during sessions. (Recommended for younger learners!)"
 
 - If yes:
@@ -66,7 +81,7 @@ Ask: "Would you like a study buddy companion? This is a friendly character who e
 - If no:
   - Set `buddy_enabled: false`, `buddy_config: null`
 
-### Step 8 — Generate Student ID and Write Profile
+### Step 9 — Generate Student ID and Write Profile
 Generate `student_id` using format `student_{unix_timestamp}`.
 
 Write `teaching_process/student_profile.json`:
@@ -79,6 +94,13 @@ Write `teaching_process/student_profile.json`:
   "age_group": "...",
   "learning_mode": "...",
   "difficulty": "...",
+  "preferences": {
+    "language": "en",
+    "difficulty_preference": "balanced",
+    "session_duration_minutes": 30,
+    "visual_learner": true,
+    "prefers_examples": true
+  },
   "goals": [],
   "milestones": [],
   "buddy_enabled": true,
@@ -104,7 +126,7 @@ Write `teaching_process/student_profile.json`:
 }
 ```
 
-### Step 9 — Write Course Plan and Settings
+### Step 10 — Write Course Plan and Settings
 Write `teaching_process/course_plan.json`:
 ```json
 {
@@ -118,6 +140,7 @@ Write `teaching_process/settings.json` (preserve any existing fields, merge):
 ```json
 {
   "buddy_mode": true,
+  "language": "en",
   "status": "setup",
   "setup_complete": false,
   "server_running": false,
@@ -127,7 +150,7 @@ Write `teaching_process/settings.json` (preserve any existing fields, merge):
 }
 ```
 
-### Step 10 — Invoke Researcher Agent
+### Step 11 — Invoke Researcher Agent
 Invoke the `edu-researcher` agent with arguments:
 ```
 topic={topic}
@@ -136,7 +159,7 @@ project_root={absolute_path_to_project_root}
 ```
 Wait for the researcher to complete and generate a research brief.
 
-### Step 11 — Finalize Setup
+### Step 12 — Finalize Setup
 After researcher completes, update `teaching_process/settings.json`:
 - Set `setup_complete: true`
 - Set `status: "waiting"`

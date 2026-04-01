@@ -10,7 +10,7 @@
 
 ## Overview
 
-Claude for Education is an intelligent tutoring system that brings the philosophy of **눈높이 교육** (education at the student's eye level) to life. It adapts content, pacing, and teaching approach based on real-time feedback and continuous evaluation. Rather than one-size-fits-all lessons, the system generates bespoke learning materials and responds dynamically to how each student learns best.
+Claude for Education is an intelligent tutoring system that brings the philosophy of **adaptive personalized learning** to life. It adapts content, pacing, and teaching approach based on real-time feedback and continuous evaluation. Rather than one-size-fits-all lessons, the system generates bespoke learning materials and responds dynamically to how each student learns best.
 
 **Key philosophy:** Every student learns differently. This system respects that by personalizing every aspect of education — from curriculum design to teaching method to buddy companionship.
 
@@ -513,9 +513,9 @@ cp -r teaching_process teaching_process.backup.$(date +%s)
 
 ## Learning Philosophy
 
-### 눈높이 교육 (Education at the Student's Eye Level)
+### Adaptive Personalized Learning
 
-This Korean educational philosophy emphasizes **meeting students where they are** — not where a curriculum mandates they should be. Claude for Education implements this by:
+This educational philosophy emphasizes **meeting students where they are** — not where a curriculum mandates they should be. Claude for Education implements this by:
 
 1. **Assessment first** — Evaluate current understanding before planning
 2. **Personalized pace** — Each student moves at their own speed
@@ -577,7 +577,7 @@ MIT — See LICENSE file for details.
 
 Built with [Claude Code](https://github.com/anthropic-ai/claude-code) and the Anthropic Claude API. Designed for educators, students, and anyone who believes learning should be personalized, not standardized.
 
-**Philosophy inspiration:** Korean educational tradition of 눈높이 교육 (education at the student's eye level).
+**Philosophy inspiration:** Adaptive personalized learning.
 
 ---
 

@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f \"$CLAUDE_PROJECT_DIR/teaching_process/settings.json\" ]; then STATUS=$(python3 -c \"import json; d=json.load(open('$CLAUDE_PROJECT_DIR/teaching_process/settings.json')); print(d.get('status',''))\" 2>/dev/null); PHASE=$(python3 -c \"import json; d=json.load(open('$CLAUDE_PROJECT_DIR/teaching_process/settings.json')); print(d.get('current_phase',''))\" 2>/dev/null); if [ \"$STATUS\" = 'teaching' ] || [ \"$STATUS\" = 'evaluating' ] || [ \"$STATUS\" = 'planning' ] || [ \"$STATUS\" = 'creating' ]; then echo \"[EDU-LOOP] Status: $STATUS | Phase: $PHASE — The education loop is active. Continue to next step.\"; fi; fi"
+            "command": "if [ -f \"$CLAUDE_PROJECT_DIR/teaching_process/settings.json\" ]; then STATUS=$(python3 -c \"import json; d=json.load(open('$CLAUDE_PROJECT_DIR/teaching_process/settings.json')); print(d.get('status',''))\" 2>/dev/null); PHASE=$(python3 -c \"import json; d=json.load(open('$CLAUDE_PROJECT_DIR/teaching_process/settings.json')); print(d.get('current_phase',''))\" 2>/dev/null); if [ \"$STATUS\" = 'teaching' ] || [ \"$STATUS\" = 'evaluating' ] || [ \"$STATUS\" = 'planning' ] || [ \"$STATUS\" = 'creating' ] || [ \"$STATUS\" = 'preparing' ]; then echo \"[EDU-LOOP] Status: $STATUS | Phase: $PHASE — The education loop is active. Continue to next step.\"; fi; fi"
           }
         ]
       }

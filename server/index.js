@@ -5,6 +5,10 @@ const fs = require('fs');
 const path = require('path');
 const paths = require('./lib/paths');
 
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 const app = express();
 
 // Body parsing
@@ -39,12 +43,12 @@ app.get('/', (req, res) => {
     }
   } catch (_) {}
 
-  const currentChapter = settings.current_chapter || null;
+  const currentChapter = settings.current_chapter_id || null;
   const lessonLink = currentChapter
-    ? `<a href="/lesson/${encodeURIComponent(currentChapter)}">Go to current lesson: ${currentChapter}</a>`
+    ? `<a href="/lesson/${encodeURIComponent(currentChapter)}">Go to current lesson: ${escapeHtml(currentChapter)}</a>`
     : '<em>No active lesson.</em>';
 
-  const title = (coursePlan && coursePlan.title) || 'Claude for Education';
+  const title = escapeHtml((coursePlan && coursePlan.title) || 'Claude for Education');
 
   res.send(`<!DOCTYPE html>
 <html lang="en">
@@ -81,8 +85,13 @@ app.get('/', (req, res) => {
 
 // GET /lesson/:chapterId — serve chapter index.html from html_materials
 app.get('/lesson/:chapterId', (req, res) => {
-  const { chapterId } = req.params;
-  const lessonDir = paths.htmlMaterials(chapterId);
+  const chapterId = req.params.chapterId;
+  const base = path.resolve(path.join(paths.TEACHING, 'html_materials'));
+  const resolved = path.resolve(paths.htmlMaterials(chapterId));
+  if (!resolved.startsWith(base)) {
+    return res.status(400).send('Invalid chapter ID');
+  }
+  const lessonDir = resolved;
   const indexFile = path.join(lessonDir, 'index.html');
 
   if (fs.existsSync(indexFile)) {
@@ -90,9 +99,9 @@ app.get('/lesson/:chapterId', (req, res) => {
   }
   if (fs.existsSync(lessonDir)) {
     // Serve directory listing fallback
-    return res.status(404).send(`<h2>No index.html found for chapter: ${chapterId}</h2><p>Directory exists at ${lessonDir}</p>`);
+    return res.status(404).send(`<h2>No index.html found for chapter: ${escapeHtml(chapterId)}</h2><p>Directory exists at ${escapeHtml(lessonDir)}</p>`);
   }
-  return res.status(404).send(`<h2>Chapter not found: ${chapterId}</h2><p>Expected at: ${lessonDir}</p>`);
+  return res.status(404).send(`<h2>Chapter not found: ${escapeHtml(chapterId)}</h2><p>Expected at: ${escapeHtml(lessonDir)}</p>`);
 });
 
 // GET /dashboard — serve static dashboard

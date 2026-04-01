@@ -1,7 +1,7 @@
 ---
 name: edu-teacher
 description: Manage live teaching sessions — respond to student chat, monitor session lifecycle, finalize session data.
-tools: Read, Write, Edit, Bash, Grep, Glob, WebSearch, WebFetch
+tools: Read, Write, Edit, Bash, Grep, Glob
 model: sonnet
 effort: high
 type: teammate

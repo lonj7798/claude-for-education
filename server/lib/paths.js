@@ -19,4 +19,10 @@ module.exports = {
   evaluations: () => path.join(TEACHING, 'evaluations'),
   progressSummary: () => path.join(TEACHING, 'history', 'progress_summary.json'),
   rawData: () => path.join(TEACHING, 'history', 'raw_data.json'),
+  loopState: () => path.join(TEACHING, 'loop_state.json'),
+  currentStatus: () => path.join(TEACHING, 'current_status.json'),
+  activeAgents: () => path.join(TEACHING, 'active_agents.json'),
+  materialsIndex: () => path.join(TEACHING, 'materials_index.json'),
+  plans: (filename) => path.join(TEACHING, 'plans', filename || ''),
+  researchBriefs: (filename) => path.join(TEACHING, 'research_briefs', filename || ''),
 };

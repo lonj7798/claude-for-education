@@ -39,12 +39,12 @@ Read `teaching_process/materials_index.json`. If status is not "organized", retu
 **If `concepts` provided:**
 1. For each concept, look up `concept_to_section_map[concept]` → array of section IDs
 2. For each section ID, find the section entry in `sections[]`
-3. Read the content file at `section.content_path`
+3. Read the content file at `section.content_path`. If `content_path` is not present, construct the path as `teaching_process/materials_organized/sec_{NNN}_{slug}.md` using the section's `id` and `slug` fields.
 4. Return structured result per concept
 
 **If `sections` provided:**
 1. For each section ID, find the section entry in `sections[]`
-2. Read the content file at `section.content_path`
+2. Read the content file at `section.content_path`. If `content_path` is not present, construct the path as `teaching_process/materials_organized/sec_{NNN}_{slug}.md` using the section's `id` and `slug` fields.
 3. Return structured result per section
 
 **If `all` provided:**

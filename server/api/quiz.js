@@ -8,7 +8,7 @@ const paths = require('../lib/paths');
 // POST /api/quiz/submit
 router.post('/submit', (req, res) => {
   try {
-    const { sessionId, chapterId, answers } = req.body;
+    const { sessionId, chapterId, quizId, answers } = req.body;
     if (!sessionId) {
       return res.status(400).json({ success: false, error: 'sessionId required' });
     }
@@ -16,8 +16,7 @@ router.post('/submit', (req, res) => {
       type: 'quiz_submission',
       timestamp: new Date().toISOString(),
       sessionId,
-      chapterId,
-      answers: answers || [],
+      data: { quiz_id: quizId, answers: answers || [], score: null },
     };
     appendLine(paths.studentJsonl(sessionId), event);
     return res.json({ success: true, submitted: true });

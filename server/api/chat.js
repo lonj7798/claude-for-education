@@ -18,6 +18,7 @@ router.post('/message', (req, res) => {
       sessionId,
       sender: 'student',
       message,
+      data: { sessionId, message },
     };
     appendLine(paths.studentJsonl(sessionId), event);
     return res.json({ success: true });

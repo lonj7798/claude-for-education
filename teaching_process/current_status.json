@@ -4,6 +4,8 @@
   "current_step": null,
   "current_step_number": null,
   "total_steps": 8,
+  "step_note": "8 recurring loop steps (plan through record) + 1 one-time setup phase = 9 tracked states in loop_state.json",
+  "warnings": [],
   "current_chapter": {
     "chapter_id": null,
     "title": null,

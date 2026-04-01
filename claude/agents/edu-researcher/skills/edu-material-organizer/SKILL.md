@@ -44,6 +44,7 @@ For each section, produce:
 - `has_examples`: true if the section contains worked examples or sample problems
 - `has_exercises`: true if the section contains practice problems or exercise prompts
 - `has_images`: true if the source referenced images or if OCR content was detected
+- `content_path`: `{output_dir}/sec_{NNN}_{slug}.md` — the full path to the organized section file
 
 ### Step 5 — Write Section Files
 Write each section to `{output_dir}/sec_{NNN}_{slug}.md` using this structure:
@@ -82,7 +83,8 @@ Write to `{project_root}/teaching_process/materials_index.json`:
     {
       "id": "sec_001", "slug": "...", "title": "...", "source_id": "...",
       "concepts": [], "difficulty": 5, "key_points": [],
-      "has_examples": false, "has_exercises": false, "has_images": false
+      "has_examples": false, "has_exercises": false, "has_images": false,
+      "content_path": "{output_dir}/sec_001_{slug}.md"
     }
   ],
   "total_sections": 0,

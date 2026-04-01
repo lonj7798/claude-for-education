@@ -22,7 +22,7 @@ Invoked by edu-evaluator after a quiz submission event is detected in the sessio
 ## Workflow
 
 ### Step 1 — Load Student Events
-Read the student JSONL file at `student_jsonl_path`. Parse each line as JSON. Filter to events where `event_type === "quiz_submission"` and `session_id` matches. If no such events are found, return `{status: "no_quiz_data"}` immediately.
+Read the student JSONL file at `student_jsonl_path`. Parse each line as JSON. Filter to events where `type === "quiz_submission"` and `session_id` matches. If no such events are found, return `{status: "no_quiz_data"}` immediately.
 
 ### Step 2 — Load Answer Key
 Read `quiz_answers_path`. Parse the JSON. If the file is missing or unreadable, set `answer_key = null` and proceed in raw-score-only mode (no misconception analysis, no explanations).

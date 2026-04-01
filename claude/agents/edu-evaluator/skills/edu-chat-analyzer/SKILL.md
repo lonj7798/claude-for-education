@@ -22,7 +22,7 @@ Invoked by edu-evaluator after a session ends, in parallel with or before edu-qu
 ## Workflow
 
 ### Step 1 — Load Chat Events
-Read `student_jsonl_path` and `teacher_jsonl_path`. Parse each line as JSON. Filter both files to events where `event_type === "chat_message"`. If both files yield zero chat events, return `{status: "no_chat_data"}` immediately.
+Read `student_jsonl_path` and `teacher_jsonl_path`. Parse each line as JSON. Filter both files to events where `type === "chat_message"`. If both files yield zero chat events, return `{status: "no_chat_data"}` immediately.
 
 ### Step 2 — Merge and Sort Chronologically
 Merge student and teacher chat events into a single array. Add a `speaker` field (`"student"` or `"teacher"`) based on which file the event came from. Sort by `timestamp` ascending to reconstruct the full conversation flow.

@@ -184,7 +184,9 @@ class QuizEngine {
     this._submitBtn.textContent = 'Submitting...';
 
     const payload = {
-      quizId: this.data.id,
+      sessionId: window.__SESSION_ID__,
+      chapterId: window.__CHAPTER_ID__,
+      quizId: this.data.id || this.data.quizId,
       answers: this.data.questions.map((q, idx) => ({
         questionId: q.id || idx,
         answer: this.answers[idx] ?? null

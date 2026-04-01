@@ -33,4 +33,21 @@ router.get('/plan', (req, res) => {
   }
 });
 
+// POST /api/student/xp
+router.post('/xp', (req, res) => {
+  try {
+    const { xp } = req.body;
+    if (typeof xp !== 'number') return res.status(400).json({ error: 'xp must be a number' });
+    const profile = JSON.parse(fs.readFileSync(paths.studentProfile(), 'utf8'));
+    if (!profile.buddy_state) profile.buddy_state = { buddy_xp: 0, buddy_level: 1 };
+    profile.buddy_state.buddy_xp = (profile.buddy_state.buddy_xp || 0) + xp;
+    profile.buddy_state.buddy_level = Math.floor(profile.buddy_state.buddy_xp / 100) + 1;
+    profile.updated_at = new Date().toISOString();
+    fs.writeFileSync(paths.studentProfile(), JSON.stringify(profile, null, 2));
+    res.json({ success: true, buddy_state: profile.buddy_state });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update XP' });
+  }
+});
+
 module.exports = router;

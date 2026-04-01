@@ -15,6 +15,11 @@ Server lifecycle manager for teaching sessions. Starts the Express server, resol
 - A teaching session needs to be restarted after a crash
 - Session cleanup is required at the end of a chapter
 
+## Inputs
+
+- `session_id` — ID of the current teaching session (required)
+- `project_root` — absolute path to the project directory (required)
+
 ## Workflow
 
 ### Step 1 — Read Configuration
@@ -92,9 +97,9 @@ Enter a polling loop. Track:
 Every iteration:
 
 **a. Check for completion signal.**
-Check if `teaching_process/.completed` file exists:
+Check if `teaching_process/sessions/{session_id}.completed` file exists:
 ```bash
-test -f {project_root}/teaching_process/.completed
+test -f {project_root}/teaching_process/sessions/{session_id}.completed
 ```
 If found: break the loop and proceed to Step 8.
 
@@ -141,7 +146,7 @@ rm -f {project_root}/teaching_process/.server_pid
 
 Remove the completion signal file if it exists:
 ```bash
-rm -f {project_root}/teaching_process/.completed
+rm -f {project_root}/teaching_process/sessions/{session_id}.completed
 ```
 
 Print to console:
@@ -153,7 +158,7 @@ Teaching session ended. Server stopped cleanly.
 - Server started and confirmed healthy before returning control to `edu-teacher`
 - `teaching_process/settings.json` updated with live server state throughout lifecycle
 - `teaching_process/.server_pid` written on start, removed on stop
-- `teaching_process/.completed` signal file removed after handling
+- `teaching_process/sessions/{session_id}.completed` signal file removed after handling
 - Browser opened to the active lesson URL (if `auto_open_browser` is enabled)
 
 ## Error Handling

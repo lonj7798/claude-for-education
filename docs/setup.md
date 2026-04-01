@@ -74,19 +74,89 @@ After the researcher completes:
    {
      "loop_iteration": 1,
      "current_step": "plan",
-     "steps_completed": {
-       "setup": true,
-       "plan": false,
-       "critic_review": false,
-       "create": false,
-       "teach": false,
-       "evaluate": false,
-       "replan": false
+     "steps": {
+       "setup": {
+         "completed": true,
+         "started_at": "<now>",
+         "completed_at": "<now>",
+         "outputs": {
+           "student_profile": "teaching_process/student_profile.json",
+           "course_plan": "teaching_process/course_plan.json",
+           "research_brief": null
+         },
+         "notes": null
+       },
+       "plan": {
+         "completed": false,
+         "started_at": null,
+         "completed_at": null,
+         "outputs": {"planner_a": null, "planner_b": null, "planner_c": null},
+         "failed_planners": [],
+         "notes": null
+       },
+       "critic_review": {
+         "completed": false,
+         "started_at": null,
+         "completed_at": null,
+         "outputs": {"selection_report": null, "winner": null, "winner_score": null, "all_rejected": false},
+         "replan_count": 0,
+         "notes": null
+       },
+       "architect": {
+         "completed": false,
+         "started_at": null,
+         "completed_at": null,
+         "outputs": {"canonical_plan": null, "review_report": null, "verdict": null},
+         "veto_count": 0,
+         "notes": null
+       },
+       "create": {
+         "completed": false,
+         "started_at": null,
+         "completed_at": null,
+         "outputs": {"html_dir": null, "quiz_data": null, "quiz_answers": null},
+         "notes": null
+       },
+       "teach": {
+         "completed": false,
+         "started_at": null,
+         "completed_at": null,
+         "outputs": {"session_id": null, "meta_file": null, "student_jsonl": null, "teacher_jsonl": null, "completion_status": null, "duration_minutes": null},
+         "server_port": null,
+         "notes": null
+       },
+       "evaluate": {
+         "completed": false,
+         "started_at": null,
+         "completed_at": null,
+         "outputs": {"eval_id": null, "eval_report": null, "overall_score": null, "ready_for_next": null, "methods_used": []},
+         "notes": null
+       },
+       "replan": {
+         "completed": false,
+         "started_at": null,
+         "completed_at": null,
+         "outputs": {"action": null, "next_chapter_id": null, "adaptation_log_entry": null},
+         "notes": null
+       },
+       "record": {
+         "completed": false,
+         "started_at": null,
+         "completed_at": null,
+         "outputs": {"raw_data_entry_index": null, "progress_summary_updated": false},
+         "notes": null
+       }
      },
      "current_chapter_id": null,
      "current_session_id": null,
-     "last_completed_step_at": "<now>",
-     "retry_counts": {"plan": 0, "critic_review": 0, "create": 0, "teach": 0, "evaluate": 0},
+     "retry_counts": {
+       "plan": 0,
+       "critic_review": 0,
+       "architect": 0,
+       "create": 0,
+       "teach": 0,
+       "evaluate": 0
+     },
      "error_log": []
    }
    ```

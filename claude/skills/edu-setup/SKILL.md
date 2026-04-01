@@ -87,6 +87,19 @@ Write `teaching_process/student_profile.json`:
     "name": "...",
     "personality": "cheerful"
   },
+  "history_summary": {
+    "total_sessions": 0,
+    "average_quiz_score": null,
+    "strongest_areas": [],
+    "weakest_areas": [],
+    "overall_understanding_level": null
+  },
+  "buddy_state": {
+    "buddy_xp": 0,
+    "buddy_level": 1
+  },
+  "prior_knowledge": [],
+  "updated_at": "<ISO timestamp>",
   "created_at": "<ISO timestamp>"
 }
 ```
@@ -131,13 +144,64 @@ After researcher completes, update `teaching_process/settings.json`:
 Initialize `teaching_process/loop_state.json`:
 ```json
 {
-  "setup": true,
-  "research": false,
-  "planning": false,
-  "teaching": false,
-  "assessment": false,
-  "review": false,
-  "loop_iteration": 1
+  "loop_iteration": 1,
+  "current_step": "plan",
+  "steps": {
+    "setup": {
+      "completed": true,
+      "started_at": null,
+      "completed_at": null,
+      "outputs": {}
+    },
+    "plan": {
+      "completed": false,
+      "started_at": null,
+      "completed_at": null,
+      "outputs": {}
+    },
+    "critic_review": {
+      "completed": false,
+      "started_at": null,
+      "completed_at": null,
+      "outputs": {}
+    },
+    "architect": {
+      "completed": false,
+      "started_at": null,
+      "completed_at": null,
+      "outputs": {}
+    },
+    "create": {
+      "completed": false,
+      "started_at": null,
+      "completed_at": null,
+      "outputs": {}
+    },
+    "teach": {
+      "completed": false,
+      "started_at": null,
+      "completed_at": null,
+      "outputs": {}
+    },
+    "evaluate": {
+      "completed": false,
+      "started_at": null,
+      "completed_at": null,
+      "outputs": {}
+    },
+    "replan": {
+      "completed": false,
+      "started_at": null,
+      "completed_at": null,
+      "outputs": {}
+    },
+    "record": {
+      "completed": false,
+      "started_at": null,
+      "completed_at": null,
+      "outputs": {}
+    }
+  }
 }
 ```
 

@@ -73,7 +73,7 @@ All JSON/JSONL schemas used by the education system. Agents must read and write 
 
 ## 3. Chapter Plan — `teaching_process/plans/{chapter_id}.json`
 
-**Writers:** edu-planner (creates), edu-critic (adds critic_review)
+**Writers:** edu-planner (creates proposal), edu-critic (adds critic_review, selects winner), edu-architect (writes canonical plan with expansion)
 **Readers:** edu-teacher, edu-evaluator
 
 | Field | Type | Description |
@@ -96,7 +96,29 @@ All JSON/JSONL schemas used by the education system. Agents must read and write 
 | critic_approved | boolean | Set by edu-critic |
 | critic_review | object | `{difficulty_appropriate, prerequisites_met, not_repeating_failed, aligned_with_goals, verdict, rejection_reason}` |
 | evaluation_history_considered | string[] | eval_ids reviewed by planner |
+| architect_expansion | object[] | Per-section detailed subsections with content_directives, visual_elements, interactive_elements, estimated_words, transition_notes, design_hints |
+| architect_approved | boolean | Whether architect approved the plan |
+| architect_review | object | `{verdict, structural_issues, pedagogical_flow_score, source_quality_score, quiz_design_score, student_fit_score, summary}` |
+| design_hints | object | Per-section visual and interaction guidance for the creator |
 | created_at | ISO 8601 | Creation timestamp |
+
+---
+
+## 3b. Planner Proposal — `teaching_process/plans/{chapter_id}_{planner_id}.json`
+
+**Writers:** edu-planner
+**Readers:** edu-critic, edu-architect (winning proposal only)
+
+Identical to Chapter Plan schema (Section 3), plus these additional fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| planner_id | enum | planner_a\|planner_b\|planner_c |
+| approach_strategy | string | conservative/proven, creative/experimental, or weakness-focused |
+| approach_rationale | string | Why this approach is best for this student |
+| expected_outcome | string | What student should achieve |
+| risk | string | What could go wrong |
+| differentiation | string | How this differs from other planners |
 
 ---
 
@@ -366,7 +388,7 @@ Tracks all active agent/teammate sessions so the orchestrator can recover state 
 
 ---
 
-## 10. History Files — `teaching_process/history/`
+## 11. History Files — `teaching_process/history/`
 
 ### raw_data.json (append-only array)
 

@@ -20,6 +20,7 @@ Takes the planner's decision (advance/remediate/adjust) plus resolved material c
 
 ```
 chapter_id={id}
+planner_id={a|b|c}
 title={chapter_title}
 concepts={comma-separated concept names}
 difficulty={1-10}
@@ -84,7 +85,7 @@ Replace `{buddy_name}` with the actual name from student profile.
 
 ### Step 5 — Write chapter plan JSON
 
-Write to `teaching_process/plans/{chapter_id}.json`:
+Write to `teaching_process/plans/{chapter_id}_{planner_id}.json`:
 
 ```json
 {
@@ -114,7 +115,7 @@ Write to `teaching_process/plans/{chapter_id}.json`:
 
 ## Output
 
-Writes `teaching_process/plans/{chapter_id}.json`.
+Writes `teaching_process/plans/{chapter_id}_{planner_id}.json`.
 
 ## Error Handling
 

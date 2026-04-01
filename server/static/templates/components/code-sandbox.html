@@ -209,20 +209,36 @@ console.log(greet('World'));
     output.textContent = '';
 
     if (lang === 'javascript') {
-      // Capture console.log output
-      const logs = [];
-      const origLog = console.log;
-      console.log = (...args) => logs.push(args.map(String).join(' '));
-      try {
-        // eslint-disable-next-line no-new-func
-        new Function(code)();
-        console.log = origLog;
-        output.textContent = logs.length > 0 ? logs.join('\n') : '(no output)';
-      } catch (err) {
-        console.log = origLog;
-        output.className = 'sandbox-output has-error';
-        output.textContent = `Error: ${err.message}`;
-      }
+      // Replace direct execution with sandboxed iframe
+      const iframe = document.createElement('iframe');
+      iframe.sandbox = 'allow-scripts';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(`<script>
+  try {
+    const result = (function() { ${code} })();
+    parent.postMessage({type: 'sandbox-result', result: String(result)}, '*');
+  } catch(e) {
+    parent.postMessage({type: 'sandbox-error', error: e.message}, '*');
+  }
+<\/script>`);
+      iframeDoc.close();
+      // Listen for result
+      const outputEl = output;
+      window.addEventListener('message', function handler(e) {
+        if (e.data.type === 'sandbox-result') {
+          outputEl.textContent = e.data.result || '(no output)';
+          window.removeEventListener('message', handler);
+          document.body.removeChild(iframe);
+        } else if (e.data.type === 'sandbox-error') {
+          outputEl.className = 'sandbox-output has-error';
+          outputEl.textContent = 'Error: ' + e.data.error;
+          window.removeEventListener('message', handler);
+          document.body.removeChild(iframe);
+        }
+      }, { once: false });
     } else {
       // Non-JS: would POST to backend
       output.textContent = '[Execution for this language requires server support]';

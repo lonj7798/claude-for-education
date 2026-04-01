@@ -35,8 +35,9 @@ function readAll(filePath) {
         }
       })
       .filter((entry) => entry !== null);
-  } catch (_) {
-    return [];
+  } catch (err) {
+    if (err.code === 'ENOENT') return [];
+    throw err;
   }
 }
 

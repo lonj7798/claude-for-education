@@ -22,7 +22,7 @@ router.get('/status', (req, res) => {
 // GET /api/session/current — human-readable current status
 router.get('/current', (req, res) => {
   try {
-    const statusPath = require('path').join(paths.TEACHING, 'current_status.json');
+    const statusPath = paths.currentStatus();
     if (!fs.existsSync(statusPath)) {
       return res.json({ success: true, status: null, message: 'No active session' });
     }
@@ -52,7 +52,7 @@ router.post('/complete', (req, res) => {
 
     meta.completion_status = 'completed';
     meta.completed_at = new Date().toISOString();
-    if (chapterId) meta.chapterId = chapterId;
+    if (chapterId) meta.chapter_id = chapterId;
 
     const sessionsDir = require('path').dirname(metaPath);
     if (!fs.existsSync(sessionsDir)) {

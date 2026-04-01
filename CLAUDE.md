@@ -89,23 +89,23 @@ Each has independent power: planners propose, critic selects, architect details.
 
 | Step | Name | Type | Path | Parallelism |
 |------|------|------|------|-------------|
-| Setup | `edu-setup` | Skill | `skills/edu-setup/` | interactive |
-| Setup | `edu-goal-clarifier` | Skill | `skills/edu-goal-clarifier/` | interactive |
-| Setup | `edu-researcher` | Agent | `agents/edu-researcher/` | 1 (sequential) |
-| Step 1 | `edu-planner` | Agent | `agents/edu-planner/` | **3 in parallel** |
-| Step 2 | `edu-critic` | Agent | `agents/edu-critic/` | 1 (sequential) |
-| Step 3 | `edu-architect` | Agent | `agents/edu-architect/` | 1 (sequential) |
-| Step 4 | `edu-creator` | Agent | `agents/edu-creator/` | 1 (sequential) |
-| Step 5 | `edu-teacher` | Agent (teammate) | `agents/edu-teacher/` | 1 (long-lived) |
-| Step 5 | `edu-session-launcher` | Skill | `skills/edu-session-launcher/` | (internal to teacher) |
-| Step 6 | `edu-evaluator` | Agent | `agents/edu-evaluator/` | 1 (sequential) |
+| Setup | `edu-setup` | Skill | `claude/skills/edu-setup/` | interactive |
+| Setup | `edu-goal-clarifier` | Skill | `claude/skills/edu-goal-clarifier/` | interactive |
+| Setup | `edu-researcher` | Agent | `claude/agents/edu-researcher/` | 1 (sequential) |
+| Step 1 | `edu-planner` | Agent | `claude/agents/edu-planner/` | **3 in parallel** |
+| Step 2 | `edu-critic` | Agent | `claude/agents/edu-critic/` | 1 (sequential) |
+| Step 3 | `edu-architect` | Agent | `claude/agents/edu-architect/` | 1 (sequential) |
+| Step 4 | `edu-creator` | Agent | `claude/agents/edu-creator/` | 1 (sequential) |
+| Step 5 | `edu-teacher` | Agent (teammate) | `claude/agents/edu-teacher/` | 1 (long-lived) |
+| Step 5 | `edu-session-launcher` | Skill | `claude/skills/edu-session-launcher/` | (internal to teacher) |
+| Step 6 | `edu-evaluator` | Agent | `claude/agents/edu-evaluator/` | 1 (sequential) |
 
 ### Agent Invocation Arguments
 
 | Agent | Arguments |
 |-------|-----------|
 | `edu-researcher` | `topic={topic} materials_path={abs_path} project_root={abs_path}` |
-| `edu-planner` | `planner_id={a\|b\|c} chapter_id={id} project_root={abs_path}` |
+| `edu-planner` | `planner_id={a\|b\|c} chapter_id={id} project_root={abs_path} architect_feedback_path={abs_path}` (optional, provided on veto re-plan cycles) |
 | `edu-critic` | `chapter_id={id} profile_path={abs_path} evaluations_path={abs_path} project_root={abs_path}` |
 | `edu-architect` | `chapter_id={id} project_root={abs_path}` |
 | `edu-creator` | `plan_path={abs_path} project_root={abs_path}` |
@@ -123,6 +123,8 @@ Once setup is complete, never read `docs/setup.md` again — proceed directly to
 ---
 
 ## Education Loop
+
+> **(8 recurring steps + 1 one-time setup phase = 9 tracked states in loop_state.json)**
 
 Gate: `setup_complete` must be `true` in `teaching_process/settings.json`.
 
@@ -203,7 +205,7 @@ Inputs: `chapter_id={chapter_id} project_root={abs_path}`
 
 The architect reads the critic's selection, expands the winning plan into detailed subsections with design hints, and writes the canonical `{chapter_id}.json`.
 
-**If architect VETOES** (`verdict: "revision_needed"`): Go back to Step 1 (re-plan with architect feedback). Max 2 veto cycles.
+**If architect VETOES** (`verdict: "revision_needed"`): Go back to Step 1 (re-plan). Pass the architect's review file `plans/{chapter_id}_architect_review.json` as additional context to all 3 planners. Max 2 veto cycles.
 
 **After**: Update `loop_state.json`: `steps_completed.architect = true`. Print:
 ```
@@ -312,12 +314,22 @@ Verify output exists at `teaching_process/evaluations/{eval_id}.json`.
 **After**:
 - Increment `loop_iteration`
 - Reset `loop_state.json` for next iteration: all steps false except `setup: true`
-- Set `settings.json`: `current_phase: "plan"`, `status: "waiting"`
+- Set `settings.json`: `current_phase: "plan"`, `status: "preparing"`
 - Print:
 ```
-[Iteration {N}] Cycle complete. Waiting for student to return.
+[Iteration {N}] Cycle complete. Preparing next session materials autonomously...
 ```
-- WAIT for student to return, then go to Check Stop Conditions → Step 1
+- Run Steps 1–4 (Plan → Critic → Architect → Create) for the next chapter autonomously.
+- After Step 4 (Create) completes, set `settings.json`: `status: "waiting"`
+- Print:
+```
+[Iteration {N+1}] Materials ready. Waiting for student to return.
+```
+- WAIT for student to return, then go to Check Stop Conditions → Step 1 (teach the pre-prepared chapter)
+
+> **Note:** Set `status: "preparing"` (not `"waiting"`) at Step 8 when beginning autonomous preparation. Set `status: "waiting"` only after Step 4 (Create) of the next iteration completes, to allow autonomous preparation.
+
+**Student Return Signal:** The student returns by starting a new Claude Code session. The SessionStart hook reminds the orchestrator to check `loop_state.json`, which will show `status: "waiting"`. The orchestrator resumes from Check Stop Conditions → Step 1.
 
 ---
 
@@ -339,6 +351,8 @@ loop_state.steps.{step}.outputs = {file paths and key results}
 ```
 
 The `outputs` field per step tells you EXACTLY what was produced and where to find it. On restart, you can read the outputs from completed steps without re-running them.
+
+> **Retry tracking note:** Use per-step fields only: `critic_review.replan_count` and `architect.veto_count`. The global `retry_counts` object in the template is deprecated — use per-step fields.
 
 **Example — after Step 2 (Critic) completes:**
 ```json
@@ -370,6 +384,7 @@ current_status.course_progress = {chapters_completed, chapters_planned, completi
 current_status.student_summary = {from student_profile: name, level, scores, buddy}
 current_status.last_action = {step, description, timestamp, result}
 current_status.next_action = {step, description, waiting_for}
+current_status.warnings = [{timestamp, step, message}]  // errors or degraded states
 current_status.updated_at = "<now>"
 ```
 
@@ -430,6 +445,7 @@ On startup, read `teaching_process/loop_state.json`. If it exists with incomplet
 | All planners fail | No proposals produced | Log error, retry all 3. If persists, skip chapter. | 1 full re-run |
 | Critic rejects all proposals | All scores < 6.0 | Re-run Step 1 with critic feedback. Max 2 re-plan cycles. | 2 cycles |
 | Architect vetoes | Structural issues in winning plan | Re-run from Step 1 with architect feedback. Max 2 veto cycles. | 2 cycles |
+| Architect vetoes exhausted | 2 veto cycles completed, still vetoed | Skip chapter, log to adaptation_log, advance to next chapter | 2 cycles |
 | Creator fails | Agent error or HTML missing | Retry once. If persists, skip chapter | 1 |
 | Teacher fails/crashes | Agent exits, JSONL incomplete | Restart teacher with same plan | 1 |
 | Server won't start | Port conflict or health check fails | Kill orphan, retry next port. 3 fails → abort | 3 |

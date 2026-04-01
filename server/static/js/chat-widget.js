@@ -193,14 +193,14 @@ class ChatWidget {
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
-        if (data && data.messages && data.messages.length > 0) {
-          data.messages.forEach(m => {
+        if (data && data.entries && data.entries.length > 0) {
+          data.entries.forEach(m => {
             this._removeThinking();
-            const msgEl = this._addMessage(m.text, 'teacher');
+            const msgEl = this._addMessage(m.message, 'teacher');
             this.lastTimestamp = m.timestamp || new Date().toISOString();
             if (!this.isOpen) { this.unreadCount++; this._updateUnread(); }
             document.dispatchEvent(new CustomEvent('chat-message-received', {
-              detail: { message: m.text, element: msgEl }
+              detail: { message: m.message, element: msgEl }
             }));
           });
         }

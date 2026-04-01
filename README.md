@@ -20,6 +20,10 @@ Claude for Education is an intelligent tutoring system that brings the philosoph
 
 The system orchestrates 7 specialized Claude Code agents through an **8-step education loop** with democratic planning and crash recovery.
 
+<p align="center">
+  <img src="docs/images/education_flow.png" alt="Education Loop Flow" width="500">
+</p>
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                   EDUCATION LOOP (Iteration N)                  │

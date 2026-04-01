@@ -1,7 +1,7 @@
 # Claude for Education
 
 <p align="center">
-  <img src="docs/images/claude-for-education.png" alt="Claude for Education" width="600">
+  <img src="docs/images/claude-for-education.png" alt="Claude for Education" width="400">
 </p>
 
 **Personalized adaptive learning system powered by Claude Code agents — tailored to each student's pace, learning style, and goals.**
@@ -21,7 +21,7 @@ Claude for Education is an intelligent tutoring system that brings the philosoph
 The system orchestrates 7 specialized Claude Code agents through an **8-step education loop** with democratic planning and crash recovery.
 
 <p align="center">
-  <img src="docs/images/education_flow.png" alt="Education Loop Flow" width="360">
+  <img src="docs/images/education_flow.png" alt="Education Loop Flow" width="500">
 </p>
 
 ### Agent Registry
